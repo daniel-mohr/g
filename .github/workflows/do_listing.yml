@@ -1,0 +1,20 @@
+name: example
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  amd64_opensuse_leap_latest_job_name:
+    # https://github.com/daniel-mohr/amd64_opensuse_leap_latest
+    runs-on: ubuntu-latest
+    name: opensuse leap latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: run my script in docker image
+        uses: daniel-mohr/amd64_opensuse_leap_latest@v0
+        with:
+          cmdfile: ./do
