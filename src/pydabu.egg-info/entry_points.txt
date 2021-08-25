@@ -1,0 +1,4 @@
+[console_scripts]
+json_schema_from_schema_org = dabu.scripts.json_schema_from_schema_org.json_schema_from_schema_org_main:json_schema_from_schema_org_main
+pydabu = dabu.scripts.pydabu.pydabu_main:pydabu_main
+

@@ -1,1 +1,14 @@
+MANIFEST
+build
+dist
 *~
+*.pyc
+*.pyo
+installed_files.txt
+manual_pydabu.pdf
+manual_pydabu_html/
+doc/source/README.md
+.coverage
+coverage_report/
+doc/source/test_coverage_report/index.html
+.cache/

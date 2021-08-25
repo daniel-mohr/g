@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+if [ -f installed_files.txt ]; then
+    xargs rm -rf < installed_files.txt && \
+	echo "uninstalled/removed: $(cat installed_files.txt)"
+else
+    echo "\"installed_files.txt\" does not exists"
+    echo "cannot uninstall!"
+fi

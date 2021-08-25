@@ -1,0 +1,97 @@
+stages:
+  - before_all_scripts
+  - test
+  - docu
+  - after_all_scripts
+
+cache:
+  paths:
+    - coverage_report
+
+default:
+  before_script:
+    - export PATH=$PATH:~/bin:~/.local/bin
+    - export PYTHONPATH=$PYTHONPATH:~/lib/python
+    - export PATH=$PATH:~/.local/bin
+  after_script:
+    - export PATH=$PATH:~/bin:~/.local/bin
+    - export PYTHONPATH=$PYTHONPATH:~/lib/python
+    - export PATH=$PATH:~/.local/bin
+
+run_before_all_scripts:
+  stage: before_all_scripts
+  script:
+    - export PATH=$PATH:~/bin:~/.local/bin
+    - export PYTHONPATH=$PYTHONPATH:~/lib/python
+    - export PATH=$PATH:~/.local/bin
+    - pwd
+#    - pip3 install cfchecker
+#    - pip3 install sphinx-jsonschema
+#    - ./install2home
+    - pip3 install .
+    - sleep 3
+  only:
+    - master
+
+run_after_all_scripts:
+  stage: after_all_scripts
+  script:
+    - export PATH=$PATH:~/bin:~/.local/bin
+    - export PYTHONPATH=$PYTHONPATH:~/lib/python
+    - export PATH=$PATH:~/.local/bin
+    - pwd
+#    - cat installed_files.txt | xargs rm -rf
+#    - rm installed_files.txt
+#    - rm -r build doc/build
+    - pip3 uninstall --yes pydabu
+    - sleep 3
+  only:
+    - master
+
+pytest_coverage:
+  stage: test
+  script:
+    - export PATH=$PATH:~/bin:~/.local/bin
+    - export PYTHONPATH=$PYTHONPATH:~/lib/python
+    - export PATH=$PATH:~/.local/bin
+    - pwd
+    - env python3 setup.py run_pytest --coverage --parallel
+    - sleep 3
+  only:
+    - master
+
+unittest:
+  stage: test
+  script:
+    - export PATH=$PATH:~/bin:~/.local/bin
+    - export PYTHONPATH=$PYTHONPATH:~/lib/python
+    - export PATH=$PATH:~/.local/bin
+    - pwd
+    - env python3 setup.py run_unittest
+    - sleep 3
+  only:
+    - master
+
+pages:
+  stage: docu
+  needs: ["pytest_coverage"]
+  script:
+    - export PATH=$PATH:~/bin:~/.local/bin
+    - export PYTHONPATH=$PYTHONPATH:~/lib/python
+    - export PATH=$PATH:~/.local/bin
+    - pwd
+    - ./create_doc_html
+    - rsync --archive --delete-after --one-file-system --links --hard-links --sparse --checksum manual_pydabu_html/ public/
+    - find public -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec gzip -f -k {} \;
+    - find public -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec brotli -f -k {} \;
+#    - pip3 install anybadge
+    - anybadge -l " " -v documentation -f documentation.svg -c fuchsia -o
+    - rm -r doc/build manual_pydabu_html
+    - sleep 3
+
+  artifacts:
+    paths:
+      - public
+      - documentation.svg
+  only:
+    - master

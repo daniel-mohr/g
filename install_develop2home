@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+rm -r build
+pip3 install -e .
+# pip3 unintall pydabu
