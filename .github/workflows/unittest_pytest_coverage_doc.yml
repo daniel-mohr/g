@@ -299,7 +299,7 @@ jobs:
           echo "sudo zypper install python3-setuptools python3-wheel python3-jsonschema python3-netCDF4 libudunits2-0 python3-pip" >> do_test
           echo "echo env python3 -V" >> do_test
           echo "env python3 -V" >> do_test
-          echo "pip3 install cfchecker" > do_test
+          echo "pip3 install cfchecker" >> do_test
           echo "env python3 setup.py check_modules" >> do_test
           echo "pip3 install ." >> do_test
           echo "which pydabu" >> do_test
