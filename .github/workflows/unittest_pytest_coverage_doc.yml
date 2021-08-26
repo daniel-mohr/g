@@ -285,18 +285,21 @@ jobs:
     - name: pytest
       run: python setup.py run_pytest --parallel --coverage
 
-  amd64_opensuse_leap_latest_test:
-    # https://github.com/daniel-mohr/amd64_opensuse_leap_latest
+  amd64_opensuse_leap_152_test:
+    # https://github.com/daniel-mohr/amd64_opensuse_leap_15.2
     runs-on: ubuntu-latest
-    name: opensuse leap latest
+    # needs: [pep8_check, pre-commit]
+    name: opensuse leap 15.2
     steps:
       - name: Checkout
         uses: actions/checkout@v2
       - name: create test script for docker
         run: |
           echo "#!/bin/sh -l" > do_test
+          echo "echo lsb_release -a" >> do_test
+          echo "lsb_release -a" >> do_test
           echo "echo zypper --non-interactive install python3-setuptools python3-wheel python3-jsonschema libudunits2-0 python3-pip" >> do_test
-          echo "zypper --non-interactive install python3-setuptools python3-wheel python3-jsonschema libudunits2-0 python3-pip" >> do_test
+          echo "zypper --non-interactive install python3 python3-setuptools python3-wheel python3-jsonschema libudunits2-0 python3-pip" >> do_test
           echo "echo env python3 -V" >> do_test
           echo "env python3 -V" >> do_test
           echo "pip3 install netCDF4 cfchecker" >> do_test
@@ -311,6 +314,6 @@ jobs:
       - name: cat test script
         run: cat do_test
       - name: run my script in docker image
-        uses: daniel-mohr/amd64_opensuse_leap_latest@v0
+        uses: daniel-mohr/amd64_opensuse_leap_15.2@v0
         with:
           cmdfile: ./do_test
