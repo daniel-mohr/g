@@ -296,7 +296,7 @@ jobs:
         run: |
           echo "#!/bin/sh -l" > do_test
           echo "echo sudo zypper install python3-setuptools python3-wheel python3-jsonschema python3-netCDF4 libudunits2-0 python3-pip" >> do_test
-          echo "sudo zypper install python3-setuptools python3-wheel python3-jsonschema python3-netCDF4 libudunits2-0 python3-pip" >> do_test
+          echo "zypper install python3-setuptools python3-wheel python3-jsonschema python3-netCDF4 libudunits2-0 python3-pip" >> do_test
           echo "echo env python3 -V" >> do_test
           echo "env python3 -V" >> do_test
           echo "pip3 install cfchecker" >> do_test
