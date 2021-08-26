@@ -296,10 +296,11 @@ jobs:
       - name: create test script for docker
         run: |
           echo "#!/bin/sh -l" > do_test
-          echo "echo lsb_release -a" >> do_test
-          echo "lsb_release -a" >> do_test
-          echo "echo zypper --non-interactive install python3-setuptools python3-wheel python3-jsonschema libudunits2-0 python3-pip" >> do_test
-          echo "zypper --non-interactive install python3 python3-setuptools python3-wheel python3-jsonschema libudunits2-0 python3-pip" >> do_test
+          echo "echo zypper --non-interactive install python3-setuptools python3-wheel python3-jsonschema python3-pip" >> do_test
+          echo "zypper --non-interactive install python3 python3-setuptools python3-wheel python3-jsonschema python3-pip" >> do_test
+          echo "zypper --non-interactive addrepo https://ftp.lysator.liu.se/pub/opensuse/repositories/science/openSUSE_Leap_15.2/ science-x86_64" >> do_test
+          echo "zypper --gpg-auto-import-keys refresh" >> do_test
+          echo "zypper install libudunits2-0" >> do_test
           echo "echo env python3 -V" >> do_test
           echo "env python3 -V" >> do_test
           echo "pip3 install netCDF4 cfchecker" >> do_test
