@@ -294,14 +294,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: create test script for docker
+        # ftp.lysator.liu.se/pub/opensuse/repositories/science/openSUSE_Leap_15.2
+        # is necessary for libudunits2-0
         run: |
           echo "#!/bin/sh -l" > do_test
-          echo "echo zypper --non-interactive install python3-setuptools python3-wheel python3-jsonschema python3-pip" >> do_test
-          echo "zypper --non-interactive install python3 python3-setuptools python3-wheel python3-jsonschema python3-pip" >> do_test
+          echo "set -e -v" >> do_test
           echo "zypper --non-interactive addrepo https://ftp.lysator.liu.se/pub/opensuse/repositories/science/openSUSE_Leap_15.2/ science-x86_64" >> do_test
           echo "zypper --gpg-auto-import-keys refresh" >> do_test
-          echo "zypper install libudunits2-0" >> do_test
-          echo "echo env python3 -V" >> do_test
+          echo "zypper --non-interactive install python3 python3-setuptools python3-wheel python3-jsonschema python3-pip libudunits2-0" >> do_test
           echo "env python3 -V" >> do_test
           echo "pip3 install netCDF4 cfchecker" >> do_test
           echo "env python3 setup.py check_modules" >> do_test
