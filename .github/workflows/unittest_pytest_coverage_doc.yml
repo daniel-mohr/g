@@ -331,8 +331,11 @@ jobs:
         branch: documentation
         folder: manual_pydabu_html
     - name: create source distribution
-      run: |
-        ls -lah
-        env python3 setup.py sdist --formats=gztar,zip
-        ls -lah
-        ls -lah dist/
+      run: env python3 setup.py sdist --formats=zip
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "development build"
+          files: dist/pydabu-*.zip
