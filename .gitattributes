@@ -4,3 +4,4 @@
 # But at least the values here overwrite global and system-wide definitions.
 
 pydabu_unittests/data/** -text
+src export-ignore

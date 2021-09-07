@@ -337,8 +337,6 @@ jobs:
       uses: "marvinpinto/action-automatic-releases@latest"
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
-        #automatic_release_tag: "latest"
-        automatic_release_tag: "${{ env.pydabu_version }}"
+        automatic_release_tag: "${{ env.pydabu_version }}" "latest"
         prerelease: true
-        #title: "development build"
         files: dist/pydabu-*
