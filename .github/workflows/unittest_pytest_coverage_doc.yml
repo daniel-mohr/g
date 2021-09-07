@@ -330,15 +330,15 @@ jobs:
         branch: documentation
         folder: manual_pydabu_html
     - name: create source distribution
-      run: env python3 setup.py sdist --formats=zip
+      run: env python3 setup.py sdist --formats=gztar,zip
     - name: create version environment variable
-      run: echo "{pydabu_version}={$(env python3 setup.py --version)}" >> $GITHUB_ENV
+      run: echo "pydabu_version=$(env python3 setup.py --version)" >> $GITHUB_ENV
     - name: create release
       uses: "marvinpinto/action-automatic-releases@latest"
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
         #automatic_release_tag: "latest"
-        automatic_release_tag: ${{ env.pydabu_version }}
+        automatic_release_tag: "${{ env.pydabu_version }}"
         prerelease: true
         #title: "development build"
-        files: dist/pydabu-*.zip
+        files: dist/pydabu-*
