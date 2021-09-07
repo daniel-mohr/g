@@ -329,11 +329,8 @@ jobs:
       with:
         branch: documentation
         folder: manual_pydabu_html
-    - name: tag commit
-      uses: tvdias/github-tagger@v0.0.1
-      with:
-        repo-token: "${{ secrets.GITHUB_TOKEN }}"
-        tag: "latest"
+    - name: tag commit with latest
+      uses: EndBug/latest-tag@latest
     - name: create source distribution
       run: env python3 setup.py sdist --formats=gztar,zip
     - name: create version environment variable
