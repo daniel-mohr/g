@@ -8,6 +8,7 @@ pydabu_unittests/data/** -text
 create_* export-ignore
 .gitattributes export-ignore
 .github export-ignore
+.gitignore export-ignore
 .gitlab-ci.yml export-ignore
 install* export-ignore
 .pre-commit-config.yaml export-ignore
