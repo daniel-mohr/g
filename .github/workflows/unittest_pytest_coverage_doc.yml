@@ -329,6 +329,11 @@ jobs:
       with:
         branch: documentation
         folder: manual_pydabu_html
+    - name: tag commit
+      uses: tvdias/github-tagger@v0.0.1
+      with:
+        repo-token: "${{ secrets.GITHUB_TOKEN }}"
+        tag: "latest"
     - name: create source distribution
       run: env python3 setup.py sdist --formats=gztar,zip
     - name: create version environment variable
@@ -337,8 +342,6 @@ jobs:
       uses: "marvinpinto/action-automatic-releases@latest"
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
-        automatic_release_tag: |
-          "${{ env.pydabu_version }}"
-          "latest"
+        automatic_release_tag: "${{ env.pydabu_version }}"
         prerelease: true
         files: dist/pydabu-*
