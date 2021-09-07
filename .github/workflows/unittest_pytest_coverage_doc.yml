@@ -333,6 +333,6 @@ jobs:
     - name: create source distribution
       run: |
         ls -lah
-        env python3 setup.py sdist --owner nobody --group nobody
+        env python3 setup.py sdist --formats=gztar,zip
         ls -lah
         ls -lah dist/
