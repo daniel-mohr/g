@@ -77,15 +77,6 @@ jobs:
       run: pip3 install sphinx-jsonschema
     - name: build doc
       run: ./create_doc
-    - name: adapt doc fo jekyll
-      if: ${{ github.event_name == 'push' }}
-      run: touch manual_pydabu_html/.nojekyll
-    - name: deploy pages
-      if: ${{ github.event_name == 'push' }}
-      uses: JamesIves/github-pages-deploy-action@4.1.4
-      with:
-        branch: documentation
-        folder: manual_pydabu_html
 
   ubuntu-2004_test_doc:
     # https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu2004-README.md
@@ -310,3 +301,38 @@ jobs:
       run: python setup.py run_unittest
     - name: pytest
       run: python setup.py run_pytest --parallel --coverage
+
+  ubuntu-2004_deploy_pages_create_source_distribution:
+    # https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu2004-README.md
+#    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
+    needs: [ubuntu-1804_test_doc, ubuntu-2004_test_doc, amd64_opensuse_leap_153_test, macos-1015_test, windows-2016_test, windows-2019_test]
+    steps:
+    - uses: actions/checkout@v2
+    - name: install dependencies (ubuntu packages)
+      run: sudo apt install python3-setuptools python3-wheel python3-jsonschema python3-netcdf4 libudunits2-0 python3-sphinx python3-sphinx-argparse python3-recommonmark latexmk texlive-latex-recommended texlive-fonts-recommended texlive-latex-extra
+    - name: install dependencies (cfchecker via pip)
+      run: pip3 install cfchecker
+    - name: check all modules available
+      run: env python3 setup.py check_modules
+    - name: install pydabu
+      run: pip3 install .
+    - name: install dependencies for documentation (sphinx-jsonschema via pip)
+      run: pip3 install sphinx-jsonschema
+    - name: build doc
+      run: ./create_doc
+    - name: adapt doc fo jekyll
+      if: ${{ github.event_name == 'push' }}
+      run: touch manual_pydabu_html/.nojekyll
+    - name: deploy pages
+      if: ${{ github.event_name == 'push' }}
+      uses: JamesIves/github-pages-deploy-action@4.1.4
+      with:
+        branch: documentation
+        folder: manual_pydabu_html
+    - name: create source distribution
+      run: |
+        ls -lah
+        env python3 setup.py sdist --owner nobody --group nobody
+        ls -lah
+        ls -lah dist/
